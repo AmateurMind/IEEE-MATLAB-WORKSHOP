@@ -1,6 +1,4 @@
 import streamlit as st
-import html
-import streamlit.components.v1 as components
 
 st.set_page_config(page_title="IEEE MATLAB Ray Tracing Workshop", layout="wide", page_icon="📡")
 
@@ -724,7 +722,6 @@ fprintf("Gain Improvement: %.4f dB\n", improvement3);
 }
 
 # Sidebar Navigation
-st.sidebar.image("https://img.icons8.com/color/96/satellite-tower.png", width=70)
 st.sidebar.title("IEEE MATLAB Workshop")
 st.sidebar.markdown("**Urban Ray Tracing & 5G Beam Steering**")
 
@@ -736,49 +733,18 @@ if selected_option in PARTS:
     part_key = selected_option
     part_data = PARTS[part_key]
 
+
     st.markdown(f'<div class="badge">{part_data["badge"]}</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="main-header">{part_data["title"]}</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="sub-header">{part_data["description"]}</div>', unsafe_allow_html=True)
 
-    # 1. CODE AND COPY OPTION FIRST
-    st.markdown("### 💻 MATLAB Code & Copy Option")
     code = part_data["code"]
-    js_safe = code.replace('\\','\\\\').replace('`','\\`')
 
     with st.sidebar:
         st.markdown("---")
-        st.markdown("### Quick Copy & Download")
-        components.html(f"""
-        <div style='padding:4px;display:flex;justify-content:center;'>
-            <button style='width:100%;padding:10px;border-radius:6px;border:none;background:#006699;color:#fff;cursor:pointer;font-weight:700;' onclick="navigator.clipboard.writeText(`{js_safe}`)">📋 Copy {part_key} Code</button>
-        </div>
-        """, height=65)
+        st.markdown("### Download Code")
         st.download_button(f"📥 Download {part_key} (.m)", code, file_name=f"{part_key.replace(' ', '_')}.m", mime="text/plain")
 
-    pre_id = f"code_{abs(hash(part_key))}"
-    esc = html.escape(code)
-    num_lines = len(code.strip().split('\n'))
-    box_height = min(max(num_lines * 22 + 65, 110), 450)
-    components.html(f"""
-    <div style='background:#1e1e1e;color:#d4d4d4;padding:14px;border-radius:8px;position:relative;font-family:Consolas, Monaco, "Andale Mono", monospace;'>
-        <button style='position:absolute;top:10px;right:10px;padding:6px 14px;border-radius:4px;border:none;background:#007bff;color:#fff;cursor:pointer;z-index:2;font-weight:600;display:inline-flex;align-items:center;gap:4px;' 
-            onclick="(() => {{
-                const btn = event.target;
-                const text = document.getElementById('{pre_id}').innerText;
-                navigator.clipboard.writeText(text)
-                    .then(() => {{
-                        btn.innerHTML = '✓ Copied';
-                        setTimeout(() => btn.innerHTML = 'Copy Code', 1200);
-                    }})
-                    .catch(err => alert('Copy error: ' + err));
-            }})()">Copy Code</button>
-        <pre id='{pre_id}' style='white-space:pre-wrap;font-size:14px;margin-top:28px;max-height:400px;overflow-y:auto;color:#d4d4d4;'>{esc}</pre>
-    </div>
-    """, height=box_height)
-
-    st.markdown("---")
-
-    # 2. REST OF INFO SECOND
     st.markdown("### 📖 Detailed Explanation & Workshop Info")
     with st.expander("📌 Theoretical Overview & Parameter Reference", expanded=True):
         st.markdown(part_data["explanation"])
@@ -786,6 +752,7 @@ if selected_option in PARTS:
     if "challenge" in part_data and part_data["challenge"]:
         with st.expander("💡 Mini Challenge & Expected Outcome", expanded=True):
             st.markdown(part_data["challenge"])
+
 
 elif selected_option == "6-Hour Schedule":
     st.markdown('<div class="main-header">Recommended 6-Hour Workshop Structure</div>', unsafe_allow_html=True)
