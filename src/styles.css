@@ -47,6 +47,12 @@ body {
   color: var(--blue);
   letter-spacing: -0.08em;
 }
+.brand-logo {
+  width: 132px;
+  height: 48px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
 .brand small {
   display: block;
   font:
@@ -54,6 +60,28 @@ body {
     monospace;
   color: var(--muted);
   margin-top: 4px;
+}
+.header-logos {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-left: auto;
+  margin-right: 24px;
+}
+.header-logos img {
+  width: 132px;
+  height: 48px;
+  max-width: 132px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.header-logos .featured-logo {
+  width: 132px;
+  max-width: 132px;
+}
+.header-logos .college {
+  max-width: 30px;
+  max-height: 32px;
 }
 .topbar nav {
   display: flex;
@@ -268,7 +296,7 @@ body {
   display: grid;
   grid-template-columns: 285px 1fr;
   gap: 8vw;
-  padding: 100px 0 120px;
+  padding: 32px 0 120px;
 }
 .sidebar {
   border-right: 1px solid var(--line);
@@ -367,6 +395,31 @@ body {
     monospace;
   text-transform: uppercase;
 }
+.code-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.code-heading h3 {
+  margin: 0;
+}
+.copy-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--blue);
+  padding: 7px 9px;
+  font:
+    10px 'DM Mono',
+    monospace;
+  cursor: pointer;
+}
+.copy-button:hover {
+  border-color: var(--blue);
+}
 .lesson pre {
   min-height: 170px;
   padding: 18px;
@@ -440,11 +493,31 @@ footer {
   .topbar {
     height: 76px;
   }
+  .brand-logo {
+    width: 62px;
+    height: 33px;
+  }
   .topbar nav {
     gap: 9px;
   }
   .topbar nav button {
     font-size: 9px;
+  }
+  .header-logos {
+    gap: 8px;
+    margin-right: 8px;
+  }
+  .header-logos img {
+    width: 62px;
+    height: 33px;
+    max-width: 62px;
+  }
+  .header-logos .featured-logo {
+    width: 62px;
+    max-width: 62px;
+  }
+  .header-logos .college {
+    max-width: 22px;
   }
   .enter {
     display: none;

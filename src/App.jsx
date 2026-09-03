@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ArrowRight, Download, Search, Radio, Clock3 } from 'lucide-react';
+import { Check, Copy, Download, Search, Clock3 } from 'lucide-react';
 
 const modules = [
   [
@@ -160,10 +160,30 @@ const snippets = {
   5: 'los(tx,rx1);',
   6: 'rtpm = propagationModel("raytracing", ...\n    Method="sbr", ...\n    MaxNumReflections=0, ...\n    MaxNumDiffractions=0);',
   7: 'coverage(tx,rtpm, ...\n    SignalStrengths=-120:-5, ...\n    MaxRange=250, Resolution=5);',
+  4: 'rx1 = rxsite( ...\n    Name="User Equipment 1", ...\n    Latitude=41.881352, ...\n    Longitude=-87.629771, ...\n    AntennaHeight=30);\n\nshow(rx1);',
+  8: 'rtpm.MaxNumReflections = 1;\nraytrace(tx,rx1,rtpm,Type="pathloss");',
+  9: 'ss1 = sigstrength(rx1,tx,rtpm);\nfprintf("UE1 received power = %.4f dBm\\n",ss1);',
+  10: 'rtpm.BuildingsMaterial = "concrete";\nrtpm.TerrainMaterial = "concrete";\n\nraytrace(tx,rx1,rtpm,Type="pathloss");\nss1_concrete = sigstrength(rx1,tx,rtpm);',
+  11: 'rtPlusWeather = rtpm + propagationModel("gas") ...\n    + propagationModel("rain");\nss1_weather = sigstrength(rx1,tx,rtPlusWeather);',
+  12: 'rtPlusWeather.PropagationModels(1).MaxNumReflections = 2;\nrtPlusWeather.PropagationModels(1).AngularSeparation = "low";\nss1_two_reflections = sigstrength(rx1,tx,rtPlusWeather);',
+  13: 'rtPlusWeather.PropagationModels(1).MaxNumReflections = 2;\nrtPlusWeather.PropagationModels(1).MaxNumDiffractions = 1;\nss1_two_ref_one_diff = sigstrength(rx1,tx,rtPlusWeather);',
+  14: 'fprintf("One reflection: %.4f dBm\\n",ss1);\nfprintf("Concrete: %.4f dBm\\n",ss1_concrete);\nfprintf("Concrete + weather: %.4f dBm\\n",ss1_weather);\nfprintf("Two reflections: %.4f dBm\\n",ss1_two_reflections);\nfprintf("Two reflections + diffraction: %.4f dBm\\n",ss1_two_ref_one_diff);',
+  15: 'rtPlusWeather.PropagationModels(1).MaxNumReflections = 1;\nrtPlusWeather.PropagationModels(1).MaxNumDiffractions = 0;\ncoverage(tx,rtPlusWeather, ...\n    SignalStrengths=-120:-5, ...\n    MaxRange=250, Resolution=5, Transparency=0.6);',
+  16: 'rtPlusWeather.PropagationModels(1).MaxNumReflections = 2;\nrtPlusWeather.PropagationModels(1).MaxNumDiffractions = 1;\nrtPlusWeather.PropagationModels(1).AngularSeparation = "high";\ncoverage(tx,rtPlusWeather,MaxRange=250,Resolution=5);',
+  17: 'rx2 = rxsite( ...\n    Name="User Equipment 2", ...\n    Latitude=41.880600, ...\n    Longitude=-87.628800, ...\n    AntennaHeight=30);\nshow(rx2);\nlos(tx,rx2);\nraytrace(tx,rx2,rtpm);\nss2 = sigstrength(rx2,tx,rtpm);',
+  18: 'fprintf("UE1 received power: %.4f dBm\\n",ss1_two_ref_one_diff);\nfprintf("UE2 received power: %.4f dBm\\n",ss2);',
+  19: '% Directional antennas focus energy toward a receiver.\n% The next step creates an 8x8 phased array.',
   20: 'lambda = physconst("lightspeed") / tx.TransmitterFrequency;\ntx.Antenna = phased.URA(Size=[8 8], ...\n    ElementSpacing=[lambda/2 lambda/2]);',
+  21: 'antennaDirectivity = pattern(tx.Antenna,tx.TransmitterFrequency);\nantennaDirectivityMax = max(antennaDirectivity(:));\nfprintf("Peak directivity = %.4f dBi\\n",antennaDirectivityMax);',
+  22: 'tx.AntennaAngle = -90;\npattern(tx,Transparency=0.6);',
   23: 'ray = raytrace(tx,rx1,rtPlusWeather);\naod = ray{1}.AngleOfDeparture;',
+  24: 'aod = ray{1}.AngleOfDeparture;\nfprintf("Azimuth = %.4f degrees\\n",aod(1));\nfprintf("Elevation = %.4f degrees\\n",aod(2));',
   25: 'steeringVector = phased.SteeringVector(SensorArray=tx.Antenna);\nsv = steeringVector(tx.TransmitterFrequency,[steeringaz;aod(2)]);\ntx.Antenna.Taper = conj(sv);',
   26: 'gain = ss1_beam_steering - ss1_weather;\nfprintf("Improvement: %.4f dB\\n",gain);',
+  27: 'ray2 = raytrace(tx,rx2,rtPlusWeather);\naod2 = ray2{1}.AngleOfDeparture;\nsteeringaz2 = wrapTo180(aod2(1)-tx.AntennaAngle(1));\nsv2 = steeringVector(tx.TransmitterFrequency,[steeringaz2;aod2(2)]);\ntx.Antenna.Taper = conj(sv2);\nss2_beam_steering = sigstrength(rx2,tx,rtPlusWeather);',
+  28: '% Review LOS, reflection, material, weather, diffraction,\n% and beam-steering results for UE1 and UE2.',
+  29: '% Record LOS/NLOS state, received power, and steering gain\n% for each receiver in your comparison table.',
+  30: '% Closing analysis: compare the city geometry, propagation\n% paths, antenna pattern, and final received power.',
 };
 const schedule = [
   ['00:00–00:45', 'Propagation fundamentals and Chicago 3D map'],
@@ -174,9 +194,11 @@ const schedule = [
   ['05:30–06:00', 'UE2 beam steering, gain evaluation, and Q&A'],
 ];
 function App() {
-  const [book, setBook] = useState(0);
-  const [selected, setSelected] = useState(0);
+  const initialBook = new URLSearchParams(window.location.search).get('range') === '16-30' ? 1 : 0;
+  const [book, setBook] = useState(initialBook);
+  const [selected, setSelected] = useState(initialBook * 15);
   const [query, setQuery] = useState('');
+  const [copied, setCopied] = useState(false);
   const visible = useMemo(
     () =>
       modules
@@ -196,17 +218,32 @@ function App() {
     setBook(next);
     setSelected(next * 15);
     setQuery('');
+    setCopied(false);
+  }
+  async function copySnippet() {
+    await navigator.clipboard.writeText(snippet);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
   }
   return (
     <div className="app">
       <header className="topbar">
         <a className="brand" href="#workshop">
-          <span className="brand-mark">IEEE</span>
+          <img className="brand-logo" src="/only-ieee.jpeg" alt="PESMCOE emblem" />
           <span>
             <strong>MATLAB WORKSHOP</strong>
             <small>URBAN RAY TRACING · 5G</small>
           </span>
         </a>
+        <div className="header-logos" aria-label="IEEE workshop organizations">
+          {/* <img src="/only-ieee.jpeg" alt="IEEE Student Branch PESMCOE" /> */}
+          <img
+            className="featured-logo"
+            src="/Comsoc _logo.jpg.jpeg"
+            alt="IEEE ComSoc Student Chapter PESMCOE"
+          />
+          {/* <img className="college" src="/pesmcoe.jpg" alt="PESMCOE emblem" /> */}
+        </div>
         <nav>
           <button className={book === 0 ? 'nav-active' : ''} onClick={() => switchBook(0)}>
             PARTS 01–15
@@ -217,18 +254,6 @@ function App() {
         </nav>
       </header>
       <main id="workshop">
-        <section className="identity">
-          <span>Presented by</span>
-          <div className="logos">
-            <img src="/only-ieee.jpeg" alt="IEEE Student Branch PESMCOE" />
-            <img
-              className="featured-logo"
-              src="/Comsoc _logo.jpg.jpeg"
-              alt="IEEE ComSoc Student Chapter PESMCOE"
-            />
-            <img className="college" src="/pesmcoe.jpg" alt="PES emblem" />
-          </div>
-        </section>
         <section className="workspace">
           <aside className="sidebar">
             <p className="kicker">{book ? 'PARTS 16–30' : 'PARTS 01–15'}</p>
@@ -274,7 +299,13 @@ function App() {
                 </p>
               </div>
               <div>
-                <h3>MATLAB starting point</h3>
+                <div className="code-heading">
+                  <h3>MATLAB starting point</h3>
+                  <button className="copy-button" onClick={copySnippet} type="button">
+                    {copied ? <Check size={14} /> : <Copy size={14} />}
+                    {copied ? 'Copied' : 'Copy'}
+                  </button>
+                </div>
                 <pre>{snippet}</pre>
                 <a
                   className="download"
