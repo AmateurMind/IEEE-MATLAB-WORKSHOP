@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Check, Copy, Download, Search, Clock3 } from 'lucide-react';
+import onlyIeeeLogo from '../only-ieee.jpeg';
+import comsocLogo from '../Comsoc _logo.jpg.jpeg';
 
 const modules = [
   [
@@ -229,17 +231,17 @@ function App() {
     <div className="app">
       <header className="topbar">
         <a className="brand" href="#workshop">
-          <img className="brand-logo" src="/only-ieee.jpeg" alt="PESMCOE emblem" />
+          <img className="brand-logo" src={onlyIeeeLogo} alt="PESMCOE emblem" />
           <span>
             <strong>MATLAB WORKSHOP</strong>
             <small>URBAN RAY TRACING · 5G</small>
           </span>
         </a>
         <div className="header-logos" aria-label="IEEE workshop organizations">
-          {/* <img src="/only-ieee.jpeg" alt="IEEE Student Branch PESMCOE" /> */}
+          {/* <img src={onlyIeeeLogo} alt="IEEE Student Branch PESMCOE" /> */}
           <img
             className="featured-logo"
-            src="/Comsoc _logo.jpg.jpeg"
+            src={comsocLogo}
             alt="IEEE ComSoc Student Chapter PESMCOE"
           />
           {/* <img className="college" src="/pesmcoe.jpg" alt="PESMCOE emblem" /> */}
