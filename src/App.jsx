@@ -196,7 +196,10 @@ const schedule = [
   ['05:30–06:00', 'UE2 beam steering, gain evaluation, and Q&A'],
 ];
 function App() {
-  const initialBook = new URLSearchParams(window.location.search).get('range') === '16-30' ? 1 : 0;
+  const initialBook = window.location.pathname === '/day2' ||
+    new URLSearchParams(window.location.search).get('range') === '16-30'
+    ? 1
+    : 0;
   const [book, setBook] = useState(initialBook);
   const [selected, setSelected] = useState(initialBook * 15);
   const [query, setQuery] = useState('');
@@ -230,7 +233,7 @@ function App() {
   return (
     <div className="app">
       <header className="topbar">
-        <a className="brand" href="#workshop">
+          <a className="brand" href={book ? '/day2' : '/day1'}>
           <img className="brand-logo" src={onlyIeeeLogo} alt="PESMCOE emblem" />
           <span>
             <strong>MATLAB WORKSHOP</strong>
@@ -247,12 +250,12 @@ function App() {
           {/* <img className="college" src="/pesmcoe.jpg" alt="PESMCOE emblem" /> */}
         </div>
         <nav>
-          <button className={book === 0 ? 'nav-active' : ''} onClick={() => switchBook(0)}>
+          <a className={book === 0 ? 'nav-active' : ''} href="/day1">
             PARTS 01–15
-          </button>
-          <button className={book === 1 ? 'nav-active' : ''} onClick={() => switchBook(1)}>
+          </a>
+          <a className={book === 1 ? 'nav-active' : ''} href="/day2">
             PARTS 16–30
-          </button>
+          </a>
         </nav>
       </header>
       <main id="workshop">

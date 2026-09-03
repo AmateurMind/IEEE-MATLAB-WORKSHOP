@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono&family=Manrope:wght@500;700;800&display=swap');
 :root {
   --ink: #14232b;
-  --blue: #087ca1;
-  --cyan: #70d3d0;
-  --orange: #ef805e;
+  --blue: #49647c;
+  --cyan: #efc2b7;
+  --orange: #ef6b5b;
   --paper: #fbfaf7;
   --muted: #65747a;
   --line: #d8dedb;
@@ -88,7 +88,7 @@ body {
   display: flex;
   gap: 22px;
 }
-.topbar nav button {
+.topbar nav a {
   border: 0;
   background: transparent;
   color: var(--muted);
@@ -96,8 +96,9 @@ body {
     11px 'DM Mono',
     monospace;
   cursor: pointer;
+  text-decoration: none;
 }
-.topbar nav button.nav-active {
+.topbar nav a.nav-active {
   color: var(--orange);
 }
 .enter {
@@ -146,7 +147,7 @@ body {
 .hero h1 em,
 .sidebar h2 em {
   font-style: normal;
-  color: var(--orange);
+  color: var(--blue);
 }
 .lede {
   max-width: 520px;
@@ -361,13 +362,13 @@ body {
   color: var(--ink);
 }
 .module-list button.active span {
-  color: var(--orange);
+  color: var(--blue);
 }
 .lesson {
   max-width: 790px;
 }
 .tag {
-  color: var(--orange);
+  color: var(--blue);
 }
 .lesson h2 {
   font-size: clamp(32px, 5vw, 62px);
@@ -521,7 +522,7 @@ footer {
     border-top: 1px solid var(--line);
     padding-top: 12px;
   }
-  .topbar nav button {
+  .topbar nav a {
     font-size: 9px;
     padding: 0;
   }
