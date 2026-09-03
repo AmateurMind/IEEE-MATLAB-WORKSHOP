@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>IEEE Urban Signals | Parts 16–30</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Manrope:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #14232b;
+        --blue: #087ca1;
+        --orange: #ef805e;
+        --paper: #fbfaf7;
+        --muted: #65747a;
+        --line: #d8dedb;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Manrope, sans-serif;
+      }
+      .shell {
+        max-width: 1280px;
+        margin: auto;
+        padding: 0 5vw;
+      }
+      .top {
+        height: 90px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+      }
+      .brand b {
+        color: var(--blue);
+        font-size: 22px;
+        letter-spacing: -2px;
+      }
+      .brand small {
+        display: block;
+        color: var(--muted);
+        font:
+          9px 'DM Mono',
+          monospace;
+        margin-top: 4px;
+      }
+      .nav {
+        display: flex;
+        gap: 24px;
+        font:
+          11px 'DM Mono',
+          monospace;
+      }
+      .nav a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+      .hero {
+        padding: 78px 0 60px;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 7vw;
+        align-items: center;
+      }
+      .eyebrow,
+      .kicker {
+        font:
+          11px 'DM Mono',
+          monospace;
+        letter-spacing: 0.12em;
+        color: var(--blue);
+      }
+      h1 {
+        font-size: clamp(50px, 7vw, 92px);
+        line-height: 0.96;
+        letter-spacing: -0.07em;
+        margin: 22px 0;
+      }
+      h1 em {
+        font-style: normal;
+        color: var(--orange);
+      }
+      .lede {
+        color: var(--muted);
+        line-height: 1.7;
+        max-width: 520px;
+      }
+      .art {
+        height: 325px;
+        background: #d9e7df;
+        position: relative;
+        overflow: hidden;
+        border-left: 8px solid var(--orange);
+        background-image:
+          linear-gradient(35deg, transparent 48%, #087ca122 49%, transparent 51%),
+          linear-gradient(125deg, transparent 48%, #087ca122 49%, transparent 51%);
+        background-size: 75px 75px;
+      }
+      .art:after {
+        content: 'TX  ·  STEER  ─────────  UE2';
+        position: absolute;
+        left: 35px;
+        top: 140px;
+        color: var(--orange);
+        font:
+          11px 'DM Mono',
+          monospace;
+        transform: rotate(-12deg);
+      }
+      .ring {
+        position: absolute;
+        border: 1px solid var(--blue);
+        border-radius: 50%;
+        width: 460px;
+        height: 460px;
+        left: -115px;
+        top: -65px;
+      }
+      .beam {
+        position: absolute;
+        left: 43px;
+        top: 140px;
+        width: 410px;
+        height: 2px;
+        background: var(--orange);
+        transform: rotate(-17deg);
+        box-shadow: 0 0 18px var(--orange);
+      }
+      .city {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        gap: 7px;
+        align-items: end;
+      }
+      .city i {
+        display: block;
+        width: 37px;
+        background: var(--blue);
+        height: 100px;
+      }
+      .city i:nth-child(2) {
+        height: 155px;
+        background: var(--ink);
+      }
+      .city i:nth-child(3) {
+        height: 75px;
+        background: var(--orange);
+      }
+      .city i:nth-child(4) {
+        height: 125px;
+      }
+      .city i:nth-child(5) {
+        height: 165px;
+        background: var(--ink);
+      }
+      .identity {
+        border-block: 1px solid var(--line);
+        padding: 16px 0;
+        display: flex;
+        align-items: center;
+        gap: 35px;
+        color: var(--muted);
+        font:
+          10px 'DM Mono',
+          monospace;
+      }
+      .logos {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .logos img {
+        max-width: 185px;
+        max-height: 58px;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+      }
+      .logos img:last-child {
+        max-width: 55px;
+      }
+      .body {
+        display: grid;
+        grid-template-columns: 275px 1fr;
+        gap: 8vw;
+        padding: 90px 0 115px;
+      }
+      .side {
+        border-right: 1px solid var(--line);
+        padding-right: 25px;
+      }
+      .side h2 {
+        font-size: 38px;
+        line-height: 1;
+        letter-spacing: -0.07em;
+        margin: 15px 0 28px;
+      }
+      .side h2 span {
+        color: var(--orange);
+      }
+      .parts {
+        max-height: 600px;
+        overflow: auto;
+      }
+      .parts button {
+        display: block;
+        width: 100%;
+        padding: 13px 3px;
+        border: 0;
+        border-bottom: 1px solid var(--line);
+        background: none;
+        text-align: left;
+        color: var(--muted);
+        font:
+          11px 'DM Mono',
+          monospace;
+        cursor: pointer;
+      }
+      .parts button.active,
+      .parts button:hover {
+        color: var(--ink);
+      }
+      .lesson {
+        max-width: 790px;
+      }
+      .tag {
+        color: var(--orange);
+        font:
+          11px 'DM Mono',
+          monospace;
+      }
+      .lesson h2 {
+        font-size: clamp(32px, 5vw, 62px);
+        line-height: 1;
+        letter-spacing: -0.07em;
+        margin: 18px 0 25px;
+      }
+      .lesson p {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+        border-top: 1px solid var(--ink);
+        padding-top: 28px;
+        margin-top: 30px;
+      }
+      .columns h3 {
+        font:
+          11px 'DM Mono',
+          monospace;
+        text-transform: uppercase;
+      }
+      .code {
+        background: var(--ink);
+        color: #c9e7df;
+        padding: 18px;
+        min-height: 150px;
+        white-space: pre-wrap;
+        font:
+          12px/1.7 'DM Mono',
+          monospace;
+        overflow: auto;
+      }
+      .download {
+        color: var(--blue);
+        font:
+          11px 'DM Mono',
+          monospace;
+      }
+      .schedule {
+        border-top: 1px solid var(--line);
+        padding: 75px 0;
+      }
+      .schedule h2 {
+        font-size: 55px;
+        letter-spacing: -0.07em;
+        margin: 15px 0 35px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        border-top: 1px solid var(--line);
+        padding: 16px 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .row time {
+        color: var(--orange);
+        font:
+          11px 'DM Mono',
+          monospace;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 25px 0;
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font:
+          9px 'DM Mono',
+          monospace;
+      }
+      @media (max-width: 760px) {
+        .top {
+          height: 75px;
+        }
+        .nav {
+          gap: 10px;
+        }
+        .hero,
+        .body {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding: 55px 0 45px;
+        }
+        .art {
+          height: 245px;
+        }
+        .identity {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .logos {
+          width: 100%;
+          justify-content: space-between;
+        }
+        .logos img {
+          max-width: 31vw;
+          height: auto;
+        }
+        .body {
+          padding: 65px 0;
+        }
+        .side {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          padding: 0 0 25px;
+        }
+        .parts {
+          display: flex;
+          gap: 7px;
+          overflow: auto;
+          max-height: none;
+        }
+        .parts button {
+          min-width: 92px;
+          border: 1px solid var(--line);
+          padding: 11px;
+        }
+        .columns {
+          grid-template-columns: 1fr;
+        }
+        .schedule h2 {
+          font-size: 45px;
+        }
+        footer {
+          flex-direction: column;
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="top">
+        <a class="brand" href="index.html"
+          ><b>IEEE</b
+          ><span><strong>URBAN SIGNALS</strong><small>MATLAB RAY TRACING LAB</small></span></a
+        >
+        <nav class="nav">
+          <a href="index.html">PARTS 01–15 ↙</a><a href="part-16-30.html">PARTS 16–30</a>
+        </nav>
+      </header>
+      <section class="hero">
+        <div>
+          <div class="eyebrow">IEEE MATLAB WORKSHOP · FIELD BOOK 02</div>
+          <h1>Focus the beam.<br /><em>Read the path.</em></h1>
+          <p class="lede">
+            Continue into multi-user propagation, phased arrays, dominant-ray extraction, and beam
+            steering for a stronger NLOS link.
+          </p>
+        </div>
+        <div class="art">
+          <div class="ring"></div>
+          <div class="beam"></div>
+          <div class="city"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </section>
+      <section class="identity">
+        <span>Presented by</span>
+        <div class="logos">
+          <img src="only-ieee.jpeg" alt="IEEE Student Branch PESMCOE" /><img
+            src="Comsoc _logo.jpg.jpeg"
+            alt="IEEE ComSoc Student Chapter PESMCOE"
+          /><img src="pesmcoe.jpg" alt="PES emblem" />
+        </div>
+      </section>
+      <section class="body">
+        <aside class="side">
+          <div class="kicker">THE ROUTE</div>
+          <h2>Beam<br /><span>steering</span></h2>
+          <div class="parts" id="parts"></div>
+        </aside>
+        <article class="lesson" id="lesson"></article>
+      </section>
+      <section class="schedule">
+        <div class="kicker">THE RHYTHM</div>
+        <h2>Second half: shape the link.</h2>
+        <div class="row">
+          <time>03:30–04:30</time><span>UE2 comparison and 8×8 phased antenna array</span>
+        </div>
+        <div class="row">
+          <time>04:30–05:00</time><span>Radiation patterns and dominant ray extraction</span>
+        </div>
+        <div class="row">
+          <time>05:00–05:30</time><span>Angle of departure and steering-vector synthesis</span>
+        </div>
+        <div class="row">
+          <time>05:30–06:00</time><span>UE2 beam steering, gain evaluation, and closing Q&A</span>
+        </div>
+      </section>
+      <footer>
+        <span>IEEE MATLAB WORKSHOP · URBAN SIGNALS</span
+        ><span>Back to <a href="index.html">Field Book 01 ↙</a></span>
+      </footer>
+    </div>
+    <script>
+      const data = [
+        [
+          'Advanced Urban Coverage Map',
+          'Generate a full map with two reflections and one diffraction.',
+          'Push the model.',
+          'Higher-order paths reveal detailed power contours inside building blocks.',
+        ],
+        [
+          'Introduce User Equipment 2 (UE2)',
+          'Add a second user device to the simulation.',
+          'Same cell, different experience.',
+          'A second coordinate makes spatial variation tangible.',
+        ],
+        [
+          'Multi-User Link Comparison',
+          'Compare link metrics between UE1 and UE2.',
+          'Location is a parameter.',
+          'Path length, shadowing, reflection count, and diffraction angles all differ.',
+        ],
+        [
+          'Why Directional Antennas?',
+          'Understand omnidirectional versus directional array beamforming.',
+          'Focus energy with intent.',
+          'Phased arrays steer energy toward users instead of radiating equally everywhere.',
+        ],
+        [
+          'Create 8x8 Phased Antenna Array',
+          'Design a 64-element URA with half-wavelength spacing.',
+          'Build the aperture.',
+          'A custom element pattern and uniform rectangular array create a directional antenna.',
+        ],
+        [
+          'Calculate Antenna Directivity',
+          'Compute peak directivity in dBi for the array.',
+          'Quantify the focus.',
+          'Peak directivity grows with the number of array elements.',
+        ],
+        [
+          'Visualize 3D Radiation Pattern',
+          'Overlay radiation lobes on the base station.',
+          'See the beam.',
+          'The 3D pattern makes main-lobe alignment visible.',
+        ],
+        [
+          'Extract Dominant Propagation Path',
+          'Extract path parameters from ray-trace objects.',
+          'Follow the strongest route.',
+          'The dominant ray gives the geometry needed for steering.',
+        ],
+        [
+          'Extract Angle of Departure',
+          'Read azimuth and elevation departure angles.',
+          'Convert geometry into direction.',
+          'Angles of departure describe where useful energy leaves the array.',
+        ],
+        [
+          'Apply Phased Array Beam Steering',
+          'Compute a steering vector and apply array taper weights.',
+          'Aim the aperture.',
+          'Conjugate steering weights align array phase toward the target path.',
+        ],
+        [
+          'Measure Beam Steering Gain Improvement',
+          'Quantify power enhancement after steering on an NLOS link.',
+          'Prove the gain.',
+          'Compare received power before and after steering in dBm.',
+        ],
+        [
+          'Beam Steering for UE2',
+          'Repeat path extraction, steering, and gain measurement for UE2.',
+          'Close the loop.',
+          'Each target needs its own steering solution.',
+        ],
+        [
+          'Workshop Synthesis',
+          'Review the full urban propagation pipeline.',
+          'Connect the dots.',
+          'From city geometry to a steered link, each model choice changes the result.',
+        ],
+        [
+          'Analysis Notes',
+          'Record observations from the two-user comparison.',
+          'Make the result yours.',
+          'Capture LOS state, received power, and steering gain for each receiver.',
+        ],
+        [
+          'Closing Q&A',
+          'Revisit the questions raised by the ray-tracing lab.',
+          'Leave with a model.',
+          'A good simulation is a testable explanation of what the city did to the signal.',
+        ],
+      ];
+      const snippets = {
+        1: 'rtPlusWeather.PropagationModels(1).MaxNumReflections = 2;\nrtPlusWeather.PropagationModels(1).MaxNumDiffractions = 1;\ncoverage(tx,rtPlusWeather, ...\n    MaxRange=250, Resolution=5);',
+        2: 'rx2 = rxsite( ...\n    Name="User Equipment 2", ...\n    Latitude=41.880600, ...\n    Longitude=-87.628800, ...\n    AntennaHeight=30);',
+        5: 'lambda = physconst("lightspeed") / tx.TransmitterFrequency;\ntx.Antenna = phased.URA(Size=[8 8], ...\n    ElementSpacing=[lambda/2 lambda/2]);',
+        8: 'ray = raytrace(tx,rx1,rtPlusWeather);\naod = ray{1}.AngleOfDeparture;',
+        10: 'steeringVector = phased.SteeringVector(SensorArray=tx.Antenna);\nsv = steeringVector(tx.TransmitterFrequency,[steeringaz;aod(2)]);\ntx.Antenna.Taper = conj(sv);',
+        11: 'gain = ss1_beam_steering - ss1_weather;\nfprintf("Improvement: %.4f dB\\n",gain);',
+      };
+      let selected = 0;
+      const parts = document.querySelector('#parts'),
+        lesson = document.querySelector('#lesson');
+      function draw() {
+        parts.innerHTML = data
+          .map(
+            (x, i) =>
+              `<button class="${i === selected ? 'active' : ''}" onclick="selected=${i};draw()">${String(i + 16).padStart(2, '0')} · ${x[0]}</button>`,
+          )
+          .join('');
+        const x = data[selected],
+          s =
+            snippets[selected + 1] ||
+            `% PART ${selected + 16}\n% Continue the workshop analysis here.`;
+        lesson.innerHTML = `<span class="tag">MODULE ${String(selected + 16).padStart(2, '0')} / 30</span><h2>${x[0]}</h2><p>${x[1]}</p><div class="columns"><div><h3>What you will do</h3><p>${x[2]}</p><h3>Field note</h3><p>${x[3]}</p></div><div><h3>MATLAB starting point</h3><pre class="code">${s.replaceAll('<', '&lt;')}</pre><a class="download" href="data:text/plain;charset=utf-8,${encodeURIComponent(s)}" download="part-${selected + 16}.m">↓ Download .m file</a></div></div>`;
+      }
+      draw();
+    </script>
+  </body>
+</html>
