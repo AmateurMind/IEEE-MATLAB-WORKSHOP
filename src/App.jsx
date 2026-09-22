@@ -363,7 +363,7 @@ function App() {
             </div>
           </article>
         </section>
-        <section className="schedule">
+        {/* <section className="schedule">
           <div>
             <p className="kicker">
               <Clock3 size={13} /> WORKSHOP RHYTHM
@@ -378,7 +378,7 @@ function App() {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
       </main>
       <footer>
         <span>IEEE MATLAB WORKSHOP</span>
