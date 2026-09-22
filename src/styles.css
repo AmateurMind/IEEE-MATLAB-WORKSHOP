@@ -298,7 +298,7 @@ body {
   display: grid;
   grid-template-columns: 285px 1fr;
   gap: 8vw;
-  padding: 32px 0 120px;
+  padding: 32px 0 60px;
   transition: grid-template-columns 180ms ease;
 }
 .workspace.sidebar-collapsed {
@@ -661,7 +661,7 @@ footer {
     max-width: 50px;
   }
   .workspace {
-    padding: 70px 0;
+    padding: 70px 0 0;
   }
   .sidebar {
     border-right: 0;
