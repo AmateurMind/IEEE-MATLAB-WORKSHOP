@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Check, Copy, Download, Search, Clock3 } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, Copy, Download, Search, Clock3 } from 'lucide-react';
 import onlyIeeeLogo from '../only-ieee.jpeg';
 import comsocLogo from '../Comsoc _logo.jpg.jpeg';
 
@@ -204,6 +204,7 @@ function App() {
   const [selected, setSelected] = useState(initialBook * 15);
   const [query, setQuery] = useState('');
   const [copied, setCopied] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const visible = useMemo(
     () =>
       modules
@@ -251,45 +252,84 @@ function App() {
         </div>
         <nav>
           <a className={book === 0 ? 'nav-active' : ''} href="/day1">
-            PARTS 01–15
+            {/* PARTS 01–15 */}
           </a>
           <a className={book === 1 ? 'nav-active' : ''} href="/day2">
-            PARTS 16–30
+            {/* PARTS 16–30 */}
           </a>
         </nav>
       </header>
       <main id="workshop">
-        <section className="workspace">
+        <section className={`workspace${sidebarCollapsed ? ' sidebar-collapsed' : ''}`}>
           <aside className="sidebar">
-            <p className="kicker">{book ? 'PARTS 16–30' : 'PARTS 01–15'}</p>
-            <h2>
-              {book ? 'Beam' : 'Core'}
-              <br />
-              <em>{book ? 'steering' : 'propagation'}</em>
-            </h2>
-            <label>
-              <Search size={13} /> Find a module
-            </label>
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by topic..."
-            />
-            <div className="module-list">
-              {visible.map(({ m, i }) => (
-                <button
-                  key={i}
-                  className={i === selected ? 'active' : ''}
-                  onClick={() => setSelected(i)}
-                >
-                  <span>{String(i + 1).padStart(2, '0')}</span>
-                  {m[0]}
-                </button>
-              ))}
+            <div className="sidebar-heading">
+              <div className="sidebar-heading-content">
+                <p className="kicker">{book ? 'PARTS 16–30' : 'PARTS 01–15'}</p>
+                <h2>
+                  {book ? 'Beam' : 'Core'}
+                  <br />
+                  <em>{book ? 'steering' : 'propagation'}</em>
+                </h2>
+              </div>
+              <button
+                className="sidebar-toggle"
+                type="button"
+                onClick={() => setSidebarCollapsed((collapsed) => !collapsed)}
+                aria-label={sidebarCollapsed ? 'Expand module sidebar' : 'Minimize module sidebar'}
+                title={sidebarCollapsed ? 'Expand sidebar' : 'Minimize sidebar'}
+              >
+                {sidebarCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+              </button>
+            </div>
+            <div className="sidebar-content">
+              <label>
+                <Search size={13} /> Find a module
+              </label>
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search by topic..."
+              />
+              <div className="module-list">
+                {visible.map(({ m, i }) => (
+                  <button
+                    key={i}
+                    className={i === selected ? 'active' : ''}
+                    onClick={() => setSelected(i)}
+                  >
+                    <span>{String(i + 1).padStart(2, '0')}</span>
+                    {m[0]}
+                  </button>
+                ))}
+              </div>
             </div>
           </aside>
           <article className="lesson">
-            <p className="tag">MODULE {String(selected + 1).padStart(2, '0')} / 30</p>
+            <div className="module-navigation">
+              <p className="tag">
+                MODULE {String(selected + 1).padStart(2, '0')} / {book ? 30 : 15}
+              </p>
+              <div className="module-navigation-buttons">
+                <button
+                  type="button"
+                  onClick={() => setSelected((current) => current - 1)}
+                  disabled={selected === book * 15}
+                  aria-label="Previous module"
+                  title="Previous module"
+                >
+                  <ChevronLeft size={15} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelected((current) => current + 1)}
+                  disabled={selected === book * 15 + 14}
+                  aria-label="Next module"
+                  title="Next module"
+                >
+                  <ChevronRight size={15} />
+                </button>
+              </div>
+            </div>
             <h2>{item[0]}</h2>
             <p className="description">{item[1]}</p>
             <div className="lesson-grid">

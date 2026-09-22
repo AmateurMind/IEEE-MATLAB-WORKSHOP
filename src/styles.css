@@ -299,10 +299,61 @@ body {
   grid-template-columns: 285px 1fr;
   gap: 8vw;
   padding: 32px 0 120px;
+  transition: grid-template-columns 180ms ease;
+}
+.workspace.sidebar-collapsed {
+  grid-template-columns: 48px 1fr;
 }
 .sidebar {
   border-right: 1px solid var(--line);
   padding-right: 28px;
+  min-width: 0;
+}
+.sidebar-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sidebar-heading-content {
+  min-width: 0;
+}
+.sidebar-toggle {
+  flex: 0 0 32px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-top: 2px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--blue);
+  cursor: pointer;
+}
+.sidebar-toggle:hover {
+  border-color: var(--blue);
+  color: var(--ink);
+}
+.sidebar-content {
+  overflow: hidden;
+  max-height: 900px;
+  opacity: 1;
+  transition: max-height 180ms ease, opacity 120ms ease;
+}
+.sidebar-collapsed .sidebar {
+  padding-right: 15px;
+}
+.sidebar-collapsed .sidebar-heading-content,
+.sidebar-collapsed .sidebar-content {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.sidebar-collapsed .sidebar-heading {
+  justify-content: center;
+}
+.sidebar-collapsed .sidebar-toggle {
+  margin-inline: auto;
 }
 .sidebar h2 {
   font-size: 38px;
@@ -366,6 +417,38 @@ body {
 }
 .lesson {
   max-width: 790px;
+}
+.module-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.module-navigation .tag {
+  margin: 0;
+}
+.module-navigation-buttons {
+  display: flex;
+  gap: 6px;
+}
+.module-navigation-buttons button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--blue);
+  cursor: pointer;
+}
+.module-navigation-buttons button:hover:not(:disabled) {
+  border-color: var(--blue);
+  color: var(--ink);
+}
+.module-navigation-buttons button:disabled {
+  color: var(--line);
+  cursor: not-allowed;
 }
 .tag {
   color: var(--blue);
